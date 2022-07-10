@@ -9,9 +9,18 @@ import static com.nology.musicplayer.database.DatabseConstants.JDBC_DATABASE_URL
 
 public class DBUtils {
 
+    // TO HAVE A FIELD, GETTERS AND SETTERS -> FOR JDBC_DATABASE_URL
+    // SET THAT UP IN OUR XML -> "jdbc:h2:~/test";
+
+    private String jdbcDatabaseUrl;
+
+    public void setJdbcDatabaseUrl(String jdbcDatabaseUrl) {
+        this.jdbcDatabaseUrl = jdbcDatabaseUrl;
+    }
+
     public void performDBAction(String sql, boolean throwException) {
 
-        try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL)) {
+        try (Connection connection = DriverManager.getConnection(jdbcDatabaseUrl)) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
                 boolean result = statement.execute();
@@ -31,7 +40,7 @@ public class DBUtils {
 
     public void performDBUpdate(String sql, PreparedStatementSetup statementSetup) {
 
-        try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL)) {
+        try (Connection connection = DriverManager.getConnection(jdbcDatabaseUrl)) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
                 statementSetup.beforeExecution(statement);
@@ -51,7 +60,7 @@ public class DBUtils {
 
     public <T> T performDBQuery(String sql, ResultSetHandler handler) {
 
-        try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL)) {
+        try (Connection connection = DriverManager.getConnection(jdbcDatabaseUrl)) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
                 ResultSet resultSet = statement.executeQuery();

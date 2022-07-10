@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- ^^ SCHEMA / RULES FOR WRITING SPRING XML -->
+
+    <!-- SETTING UP OUR SPRING BEANS -> DATABASE -->
+<!--    id -> label classpath -> where to find the class -->
+
+    <bean id="dbUtils" class="com.nology.musicplayer.database.DBUtils">
+        <property name="jdbcDatabaseUrl" value="jdbc:h2:~/test"/>
+    </bean>
+
+    <bean id="dataBaseInitialiser" class="com.nology.musicplayer.database.DatabaseInitialiser" init-method="initialiseDatabase">
+    <!-- META DATA -> CALLING CONSTRUCTORS & GIVING THE CLASSES THE INFO THEY NEED -->
+        <constructor-arg index="0" ref="dbUtils"/>
+    </bean>
+
+    <bean id="trackService" class="com.nology.musicplayer.database.JdbcTrackService">
+        <constructor-arg index="0" ref="dbUtils"/>
+    </bean>
+
+</beans>

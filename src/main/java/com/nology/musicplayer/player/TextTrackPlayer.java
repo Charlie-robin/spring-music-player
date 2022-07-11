@@ -4,7 +4,9 @@ import com.nology.musicplayer.data.Track;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
+import org.springframework.stereotype.Component;
 
+@Component("textTrackPlayer")
 public class TextTrackPlayer implements TrackPlayer {
 
     private int stepIncrement = 2;

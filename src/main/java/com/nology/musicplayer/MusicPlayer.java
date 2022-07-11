@@ -1,5 +1,6 @@
 package com.nology.musicplayer;
 
+import com.nology.musicplayer.config.AppConfig;
 import com.nology.musicplayer.controller.MusicController;
 import com.nology.musicplayer.database.DBUtils;
 import com.nology.musicplayer.database.DatabaseInitialiser;
@@ -9,8 +10,12 @@ import com.nology.musicplayer.frontend.TrackDisplayer;
 import com.nology.musicplayer.player.TextTrackPlayer;
 import com.nology.musicplayer.player.TrackPlayer;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
+// @Component -> General annotation for a Spring Bean / Component -> Spring controlled class
+@Component
 public class MusicPlayer {
 
     enum RendererType {
@@ -29,14 +34,11 @@ public class MusicPlayer {
     //    Track displayer
     //    Music controller
     //    Music player
+
     private void buildAndStart() {
-        // MOVED OUR CONFIGURATION INTO XML -> SETUP
-        // APPLICATION CONTEXT -> GIVING CONTROL TO SPRING TO SET UP CLASSES
-        // INVERSION OF CONTROL / DEPENDENCY INJECTION
-        ApplicationContext context = new ClassPathXmlApplicationContext("data-services.xml", "services.xml");
-        // GETBEAN RETURNS TYPE OBJECT -> CAST IT TO TYPE OF CONTROLLER
-        //
-        MusicController musicController = (MusicController) context.getBean("musicController");
+        // AnnotationConfigApplicationContext -> SETTING UP CONFIGURATION USING ANNOTATIONS
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        MusicController musicController = (MusicController) context.getBean("controller");
         musicController.run();
 
     }

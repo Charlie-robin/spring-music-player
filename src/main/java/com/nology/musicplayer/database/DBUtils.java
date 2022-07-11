@@ -2,16 +2,19 @@ package com.nology.musicplayer.database;
 
 import com.nology.musicplayer.data.StarRating;
 import com.nology.musicplayer.exceptions.TrackDatabaseException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 
 import static com.nology.musicplayer.database.DatabseConstants.JDBC_DATABASE_URL;
 
+// @Value -> GET ACCESS TO A PROPERTY IN OUR APP.PROPERTIES
+
+@Component
 public class DBUtils {
 
-    // TO HAVE A FIELD, GETTERS AND SETTERS -> FOR JDBC_DATABASE_URL
-    // SET THAT UP IN OUR XML -> "jdbc:h2:~/test";
-
+    @Value("${jdbc.url}")
     private String jdbcDatabaseUrl;
 
     public void setJdbcDatabaseUrl(String jdbcDatabaseUrl) {

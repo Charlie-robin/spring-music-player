@@ -4,9 +4,27 @@ import com.nology.musicplayer.data.Track;
 import com.nology.musicplayer.player.TrackPlayer;
 import com.nology.musicplayer.frontend.TrackDisplayer;
 import com.nology.musicplayer.service.TrackService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
+// @Configuration -> TO PROVIDE OUR SETUP / CONFIGURATION
+// @ComponentScan -> WHICH & WHERE COMPONENTS / BEANS TO CREATE -> USING ANNOTATIONS TO CREATE THEM
+// @PropertySource -> ALLOWS USE TO ADD IN VALUES WHEN WE NEED THEM E.G DATABASEURL -> APP.PROPERTIES
+// - @Value -> GET ACCESS TO A PROPERTY IN OUR APP.PROPERTIES
+// @Component -> General annotation for a Spring Bean / Component -> Spring controlled class
+//  - @Component("id/name") -> REFERENCE LATER ON
+//  - @Controller -> ANNOTATION FOR A CONTROLLER
+//  - @Service -> GETTING SOMETHING FROM A RESOURCE, @Repository -> DEALING WITH PERSISTENCE / DATABASE -> ANNOTATIONS FOR BEANS WITH THESE ROLES
+// @Autowired -> GET SPRING TO ADD IN A DEPENDENCY -> CONSTRUCTOR + METHOD + FIELD -> DEPENDENCY INJECTION
+//  - @Qualifier("id") -> SPRING BEAN WITH THIS ID TO ADD AS A DEPENDENCY
+// @PostConstruct -> NOT FROM SPRING -> THE JAVA.X DEPENDENCY WE ADDED -> RUN METHOD ONCE CREATED
+
+@Controller("controller")
 public class MusicController {
 
     private TrackService trackService;
@@ -19,6 +37,7 @@ public class MusicController {
 
     private Track currentTrack;
 
+    @PostConstruct
     public void initialiseController() {
         initialise();
     }
@@ -178,14 +197,16 @@ public class MusicController {
         this.playlist = trackService.getAllTracks();
     }
 
+    @Autowired
+    @Qualifier("textTrackPlayer")
     public void setTrackPlayer(TrackPlayer trackPlayer) {
         this.trackPlayer = trackPlayer;
     }
-
+    @Autowired
     public void setTrackDisplayer(TrackDisplayer trackDisplayer) {
         this.trackDisplayer = trackDisplayer;
     }
-
+    @Autowired
     public void setTrackService(TrackService trackService) {
         this.trackService = trackService;
     }
